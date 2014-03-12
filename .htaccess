@@ -1,0 +1,26 @@
+#### 
+# 
+# VoKuHiLa:
+# Add this to your HTACCESS
+# Uncomment what you need!
+# 
+#### 
+
+### BOF: VoKuHiLa-QR-Codes (DYNAMIC OPTION)
+# RewriteEngine on
+# Options +FollowSymlinks
+# RewriteRule ^qr([0-9]+) http://%{HTTP_HOST}/qr/r.php?nr=$1 [NC]
+# The Static Way
+### EOF: VoKuHiLa-QR-Codes (DYNAMIC OPTION)
+
+### BOF: VoKuHiLa-QR-Codes (STATIC OPTION)
+# RedirectPermanent /qr1 http://www.domain.de/qr/r.php?nr=1
+# RedirectPermanent /qr2 http://www.domain.de/qr/r.php?nr=2
+# RedirectPermanent /qr3 http://www.domain.de/qr/r.php?nr=3
+# RedirectPermanent /qr4 http://www.domain.de/qr/r.php?nr=4
+# RedirectPermanent /qr5 http://www.domain.de/qr/r.php?nr=5
+# RedirectPermanent /qr6 http://www.domain.de/qr/r.php?nr=6
+# RedirectPermanent /qr7 http://www.domain.de/qr/r.php?nr=7
+# RedirectPermanent /qr8 http://www.domain.de/qr/r.php?nr=8
+# RedirectPermanent /qr9 http://www.domain.de/qr/r.php?nr=9
+### EOF: VoKuHiLa-QR-Codes (STATIC OPTION)

@@ -10,7 +10,6 @@
 # RewriteEngine on
 # Options +FollowSymlinks
 # RewriteRule ^qr([0-9]+) http://%{HTTP_HOST}/qr/r.php?nr=$1 [NC]
-# The Static Way
 ### EOF: VoKuHiLa-QR-Codes (DYNAMIC OPTION)
 
 ### BOF: VoKuHiLa-QR-Codes (STATIC OPTION)

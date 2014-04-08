@@ -51,6 +51,7 @@
 
 			ga('create', 'UA-00000000-0', 'domain.com');
 			ga('set', 'anonymizeIp', true);
+			ga('require', 'displayfeatures');
 
 			ga('send', {
 				'hitType': 'event',

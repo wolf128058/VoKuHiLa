@@ -49,10 +49,16 @@
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+			//INSERT YOUR ACCOUNT NUMBER AND DOMAIN HERE!
 			ga('create', 'UA-00000000-0', 'domain.com');
+			//ANONYMIZE IP PARAMETER (MUST BE SET IN GERMANY!)			
 			ga('set', 'anonymizeIp', true);
+			//FORCE SSL USAGE
+			ga('set', 'forceSSL', true);
+			//ENABLE DISPLAY FEATURES
 			ga('require', 'displayfeatures');
 
+			//TRIGGER EVENT-LOGGING
 			ga('send', {
 				'hitType': 'event',
 				'eventCategory': '<?php echo $eventcat ?>',

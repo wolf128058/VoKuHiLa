@@ -12,6 +12,14 @@
 # RewriteRule ^qr([0-9]+) http://%{HTTP_HOST}/qr/r.php?nr=$1 [NC]
 ### EOF: VoKuHiLa-QR-Codes (DYNAMIC OPTION)
 
+## BOF FORCE-WWW (Just as Auxiliary, not mandatory)
+# RewriteCond %{HTTP_HOST} !^$
+# RewriteCond %{HTTP_HOST} !^www\. [NC]
+# RewriteCond %{HTTPS}s ^on(s)|
+# RewriteRule ^ http%1://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+## EOF FORCE-WWW
+
+
 ### BOF: VoKuHiLa-QR-Codes (STATIC OPTION)
 # RedirectPermanent /qr1 http://www.domain.de/qr/r.php?nr=1
 # RedirectPermanent /qr2 http://www.domain.de/qr/r.php?nr=2

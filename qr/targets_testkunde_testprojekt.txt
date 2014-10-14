@@ -1,0 +1,2 @@
+{Verwendungszweck 1}http://www.google.de/
+{Verwendungszweck 2}http://www.wikipedia.de/

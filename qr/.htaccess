@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^([^/]+)/([^/]+)/([0-9]+)$ http://%{HTTP_HOST}/qr/r.php?kunde=$1&projekt=$2&nr=$3 [NC,R]

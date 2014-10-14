@@ -1,20 +1,17 @@
 <?php
+
 /* QR-REDIRECTOR for VoKuHiLa
  * >> Author: Jonas Hess (revier online GmbH & Co.KG) [jonas.hess@revier.de] 
  * >> Function: Use Google Analytics to count the visitor and redirect him to the desired URL
- * >> To Customize:
- *    1. Insert Your Google Analytics Account Number (UA-Number) in this file
- *    2. Customize the URLs in targets.txt
- *       (One single full URL per line, if comment desired start with {mydesiredcommentoncode}http://...)
- *    3. Generate qr-code-image for http://www.domain.com/qr/r.php?nr=23,
- *       where 23 corresponds to the number of the line containing the target in targets.txt (starts with 1)
- *       or redirect to this URL by an htaccess fowarding to use http://www.domain.com/qr1, http://www.domain.com/qr2, ...
- *    4. Feel free to translate the alert text or to customize the redirection text, if you want to.
- *    5. Feel free to add some custom style by CSS... try to keep your design responsive!
  */
 
-	//read target urls from targets.txt
-	$lines = file ('targets.txt');
+	//read target urls from matching targets_$kunde_$projekt.txt
+	$kunde     = addslashes(urldecode($_GET['kunde']));
+	$projekt   = addslashes(urldecode($_GET['projekt']));
+	$urlsource = 'targets_' . $kunde .'_' . $projekt. '.txt';
+	if(!file_exists($urlsource)) die('URLs zu Kunde / Projekt nicht bekannt.');	
+
+	$lines = file ($urlsource);
 	
 	//select desired line from target urls.txt
 	$targetURL = $lines[$_GET['nr']*1-1];
@@ -24,18 +21,18 @@
 	$start = strrpos($targetURL, '{');
 	$end   = strrpos($targetURL, '}');
 	
-	//determine event category
-	$eventcat = 'QR-Code-' . $_GET['nr'];
+	//determine event label
+	$eventlabel = 'Kunde:' . $kunde . ' | Projekt:' . $projekt . ' | CodeNr:' . $_GET['nr'];
 	
 	//add comment on event cat if given
 	if ($start== 0 && $end!== false)
 	{
 		$comment   = substr($targetURL, $start+1, $end-1);
 		$targetURL = substr($targetURL, $end+1);
-		$eventcat .= ' (' . $comment .  ')';
+		$eventlabel .= ' | Verwendung:' . $comment;
 	}
-
 ?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -49,22 +46,17 @@
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-			//INSERT YOUR ACCOUNT NUMBER AND DOMAIN HERE!
-			ga('create', 'UA-00000000-0', 'domain.com');
-			//ANONYMIZE IP PARAMETER (MUST BE SET IN GERMANY!)			
+			ga('create', 'UA-00000000-0', '<?php echo $_SERVER['HTTP_HOST']?>');
 			ga('set', 'anonymizeIp', true);
-			//FORCE SSL USAGE
 			ga('set', 'forceSSL', true);
-			//ENABLE DISPLAY FEATURES
 			ga('require', 'displayfeatures');
 
-			//TRIGGER EVENT-LOGGING
 			ga('send', {
 				'hitType': 'event',
-				'eventCategory': '<?php echo $eventcat ?>',
+				'eventlabelegory': 'QR-Code Aufruf',				
 				'eventAction': '<?php echo  $targetURL ?>',
-				'eventLabel': 'QR-Code aufgerufen',
-				'eventValue': 4,
+				'eventLabel': '<?php echo $eventlabel ?>',				
+				'eventValue': 1,
 				'hitCallback': function() {
 					window.location.href='<?php echo  $targetURL ?>';
 				} 

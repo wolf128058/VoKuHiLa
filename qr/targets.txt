@@ -1,9 +1,0 @@
-{Verwendungszweck 1}http://www.kundenadresse.de/
-{Zweiter Verwendungszweck}http://www.kundenadresse.com/
-{Verwendungszweck drei}http://www.kundenadresse.at/
-{4. Zweck}http://www.kundenadresse.ch/
-{Verwendungszweck 5}http://www.kundenadresse.org/
-{Verwendungszweck Sechs}http://www.kundenadresse.net/
-{7. Verwendungszweck}http://www.kundenadresse.de/index.html
-{Achter Verwendungszweck}http://www.kundenadresse.com/index.html
-{Verwendungszweck Nummer neun}http://www.kundenadresse.net/start.html

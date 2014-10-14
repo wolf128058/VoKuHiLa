@@ -1,0 +1,2 @@
+{Musterverwendung}http://www.test.de
+{Beispielverwendung}http://www.beispiel.de

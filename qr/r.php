@@ -42,22 +42,22 @@
 		<meta charset="utf-8">
 		<title>QR-Code Weiterleitung</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-		<script type="text/javascript">
+		<meta name="robots" content="noindex" />
+	</head>
+	<body>
 <?php if (strlen($targetURL)>7) { ?>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-			//INSERT YOUR ACCOUNT NUMBER AND DOMAIN HERE!
-			ga('create', 'UA-00000000-0', 'domain.com');
-			//ANONYMIZE IP PARAMETER (MUST BE SET IN GERMANY!)			
-			ga('set', 'anonymizeIp', true);
-			//FORCE SSL USAGE
-			ga('set', 'forceSSL', true);
-			//ENABLE DISPLAY FEATURES
-			ga('require', 'displayfeatures');
-
+			<!-- Google Tag Manager -->
+			<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-000000" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+			<script type="text/javascript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-000000');</script>
+			<!-- End Google Tag Manager -->	
+<!--
+	TO DO: Event and forward
+	NEW: dataLayer.push({'new-variable': 'value'}); 
+	[...]
 			//TRIGGER EVENT-LOGGING
 			ga('send', {
 				'hitType': 'event',
@@ -69,16 +69,16 @@
 					window.location.href='<?php echo  $targetURL ?>';
 				} 
 			});  
+			
+			-->
+		Einen kleinen Augenblick, es geht gleich weiter zu 
+		echo '<a href="' . $targetURL . '">' . $targetURL . '</a>'
 <?php } else { ?>	
-			alert('Unbekannter QR-Code');
+		Unbekannter QR-Code
 <?php } ?>	
-		</script>
-		<meta name="robots" content="noindex" />
-	</head>
-	<body>
-	Einen kleinen Augenblick, es geht gleich weiter zu 
+	
 <?php
-  echo '<a href="' . $targetURL . '">' . $targetURL . '</a>'
+  
 ?>
 	</body>
 </html>

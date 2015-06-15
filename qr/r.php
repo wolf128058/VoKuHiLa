@@ -35,6 +35,9 @@
 		$eventcat .= ' (' . $comment .  ')';
 	}
 
+	//CONFIG: Tag Manager Container ID
+	$gtm_containerid = 'GTM-000000';
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -47,38 +50,36 @@
 	<body>
 <?php if (strlen($targetURL)>7) { ?>
 			<!-- Google Tag Manager -->
-			<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-000000" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-			<script type="text/javascript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			<noscript><iframe src="//www.googletagmanager.com/ns.html?id=<?php echo  $gtm_containerid ?>" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+			<script type="text/javascript">
+			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-			})(window,document,'script','dataLayer','GTM-000000');</script>
+			})(window,document,'script','dataLayer','<?php echo  $gtm_containerid ?>');
+			</script>
 			<!-- End Google Tag Manager -->	
-<!--
-	TO DO: Event and forward
-	NEW: dataLayer.push({'new-variable': 'value'}); 
-	[...]
-			//TRIGGER EVENT-LOGGING
-			ga('send', {
-				'hitType': 'event',
-				'eventCategory': '<?php echo $eventcat ?>',
-				'eventAction': '<?php echo  $targetURL ?>',
-				'eventLabel': 'QR-Code aufgerufen',
-				'eventValue': 4,
-				'hitCallback': function() {
+			<script type="text/javascript">
+			var dataLayer = [{
+						'event': 'QrRedirect',
+						'eventLabel': 'QR-Code aufgerufen',
+						'eventAction': '<?php echo  $targetURL ?>',
+						'eventCategory': '<?php echo $eventcat ?>'
+						}];
+			dataLayer.push({
+				'event': 'dataLayerReady',
+				'eventCallback': function() {
 					window.location.href='<?php echo  $targetURL ?>';
-				} 
-			});  
+				}
+			});
 			
-			-->
-		Einen kleinen Augenblick, es geht gleich weiter zu 
-		echo '<a href="' . $targetURL . '">' . $targetURL . '</a>'
-<?php } else { ?>	
-		Unbekannter QR-Code
-<?php } ?>	
-	
+			</script>
+			Einen kleinen Augenblick, es geht gleich weiter zu 
 <?php
-  
-?>
+			echo '<a href="' . $targetURL . '">' . $targetURL . '</a>';
+ } else { ?>
+			Unbekannter QR-Code
+<?php } ?>	
+
 	</body>
 </html>

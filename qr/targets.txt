@@ -1,9 +1,5 @@
-{Verwendungszweck 1}http://www.kundenadresse.de/
-{Zweiter Verwendungszweck}http://www.kundenadresse.com/
-{Verwendungszweck drei}http://www.kundenadresse.at/
-{4. Zweck}http://www.kundenadresse.ch/
-{Verwendungszweck 5}http://www.kundenadresse.org/
-{Verwendungszweck Sechs}http://www.kundenadresse.net/
-{7. Verwendungszweck}http://www.kundenadresse.de/index.html
-{Achter Verwendungszweck}http://www.kundenadresse.com/index.html
-{Verwendungszweck Nummer neun}http://www.kundenadresse.net/start.html
+{"url":"http://www.google.de","usage":"Flyer 2018"}
+{"url":"http://www.google.com","usage":"Flyer 2019"}
+{"url":"http://www.google.at","usage":"Flyer 2020"}
+{"url":"http://www.google.ch","usage":"Billboard 2017"}
+{"url":"http://www.google.net","usage":"Flyer 2017"}

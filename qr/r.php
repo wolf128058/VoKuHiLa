@@ -14,26 +14,17 @@
  */
 
     //read target urls from targets.txt
-    $lines = file ('targets.txt');
+    $lines = file('targets.txt');
 
     //select desired line from target urls.txt
-    $targetURL = $lines[$_GET['nr']*1-1];
-    $targetURL = preg_replace("/(\r\n|\n|\r)/", "", $targetURL);
-
-    //find comment in URL
-    $start = strrpos($targetURL, '{');
-    $end   = strrpos($targetURL, '}');
+    $target = json_decode($lines[$_GET['nr'] * 1 - 1], true);
 
     //determine event category
     $eventcat = 'QR-Code-' . $_GET['nr'];
 
     //add comment on event cat if given
-    if ($start== 0 && $end!== false)
-    {
-        $comment   = substr($targetURL, $start+1, $end-1);
-        $targetURL = substr($targetURL, $end+1);
-        $eventcat .= ' (' . $comment .  ')';
-    }
+    $usage = $target['usage'];
+    $eventcat .= ' (' . $usage . ')';
 
 ?>
 <!DOCTYPE html>
@@ -43,11 +34,60 @@
         <title>QR-Code Weiterleitung</title>
         <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script type="text/javascript">
-<?php if (strlen($targetURL)>7) { ?>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        <?php if (strlen($target['url']) > 7 && parse_url($target['url'])) {
+
+        $parsedURL = parse_url($target['url']);
+
+        $target['url'] = $parsedURL['scheme'] . '://';
+
+        if (strlen($parsedURL['user']) > 0 && strlen($parsedURL['pass']) > 0) {
+            $target['url'] .= $parsedURL['user'] . ':' . $parsedURL['pass'] . '@';
+        }
+
+        $target['url'] .= $parsedURL['host'];
+
+        if (strlen($parsedURL['port']) > 0) {
+            $target['url'] .= ':' . $parsedURL['port'];
+        }
+        $target['url'] .= $parsedURL['path'];
+
+        $aParams = array();
+
+        if (strlen($parsedURL['query']) > 0) {
+            parse_str($parsedURL['query'], $aParams);
+        }
+
+        if (!isset($aParams['utm_source'])) {
+            $aParams['utm_source'] = 'qr_code';
+        }
+
+        if (!isset($aParams['utm_medium'])) {
+            $aParams['utm_medium'] = 'qr_code';
+        }
+
+        if (!isset($aParams['utm_campaign']) && isset($target['usage'])) {
+            $aParams['utm_campaign'] = urlencode($target['usage']);
+        }
+
+        $parsedURL['query'] = http_build_query($aParams);
+
+        $target['url'] .= '?' . $parsedURL['query'];
+
+        if (strlen($parsedURL['fragment']) > 0) {
+            $target['url'] .= '#' . $parsedURL['fragment'];
+        }
+?>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
             //INSERT YOUR ACCOUNT NUMBER AND DOMAIN HERE!
             ga('create', 'UA-00000000-0', 'domain.com');
@@ -62,23 +102,25 @@
             ga('send', {
                 'hitType': 'event',
                 'eventCategory': '<?php echo $eventcat ?>',
-                'eventAction': '<?php echo  $targetURL ?>',
+                'eventAction': '<?php echo $targetURL ?>',
                 'eventLabel': 'QR-Code aufgerufen',
                 'eventValue': 4,
-                'hitCallback': function() {
-                    window.location.href='<?php echo  $targetURL ?>';
+                'hitCallback': function () {
+                    window.location.href='<?php echo $target['url'] ?>';
                 }
             });
-<?php } else { ?>
+            <?php } elseif (!parse_url($target['url'])) { ?>
+            alert('Ungueltige Zieladresse');
+            <?php } else { ?>
             alert('Unbekannter QR-Code');
-<?php } ?>
+            <?php } ?>
         </script>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex"/>
     </head>
     <body>
     Einen kleinen Augenblick, es geht gleich weiter zu
 <?php
-  echo '<a href="' . $targetURL . '">' . $targetURL . '</a>'
+  echo '<a href="' . $target['url'] . '">' . $target['url'] . '</a>'
 ?>
     </body>
 </html>

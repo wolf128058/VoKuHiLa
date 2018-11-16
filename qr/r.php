@@ -13,27 +13,27 @@
  *    5. Feel free to add some custom style by CSS... try to keep your design responsive!
  */
 
-    //read target urls from targets.txt
-    $lines = file('targets.txt');
+//read target urls from targets.txt
+$lines = file('targets.txt');
 
-    //select desired line from target urls.txt
-    $target = json_decode($lines[$_GET['nr'] * 1 - 1], true);
+//select desired line from target urls.txt
+$target = json_decode($lines[$_GET['nr'] * 1 - 1], true);
 
-    //determine event category
-    $eventcat = 'QR-Code-' . $_GET['nr'];
+//determine event category
+$eventcat = 'QR-Code-' . $_GET['nr'];
 
-    //add comment on event cat if given
-    $usage = $target['usage'];
-    $eventcat .= ' (' . $usage . ')';
+//add comment on event cat if given
+$usage = $target['usage'];
+$eventcat .= ' (' . $usage . ')';
 
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>QR-Code Weiterleitung</title>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-        <script type="text/javascript">
+<head>
+    <meta charset="utf-8">
+    <title>QR-Code Weiterleitung</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript">
         <?php if (strlen($target['url']) > 7 && parse_url($target['url'])) {
 
         $parsedURL = parse_url($target['url']);
@@ -76,12 +76,12 @@
         if (strlen($parsedURL['fragment']) > 0) {
             $target['url'] .= '#' . $parsedURL['fragment'];
         }
-?>
+        ?>
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
             i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
             a = s.createElement(o),
                 m = s.getElementsByTagName(o)[0];
             a.async = 1;
@@ -89,38 +89,38 @@
             m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-            //INSERT YOUR ACCOUNT NUMBER AND DOMAIN HERE!
-            ga('create', 'UA-00000000-0', 'domain.com');
-            //ANONYMIZE IP PARAMETER (MUST BE SET IN GERMANY!)
-            ga('set', 'anonymizeIp', true);
-            //FORCE SSL USAGE
-            ga('set', 'forceSSL', true);
-            //ENABLE DISPLAY FEATURES
-            ga('require', 'displayfeatures');
+        //INSERT YOUR ACCOUNT NUMBER AND DOMAIN HERE!
+        ga('create', 'UA-00000000-0', 'domain.com');
+        //ANONYMIZE IP PARAMETER (MUST BE SET IN GERMANY!)
+        ga('set', 'anonymizeIp', true);
+        //FORCE SSL USAGE
+        ga('set', 'forceSSL', true);
+        //ENABLE DISPLAY FEATURES
+        ga('require', 'displayfeatures');
 
-            //TRIGGER EVENT-LOGGING
-            ga('send', {
-                'hitType': 'event',
-                'eventCategory': '<?php echo $eventcat ?>',
-                'eventAction': '<?php echo $targetURL ?>',
-                'eventLabel': 'QR-Code aufgerufen',
-                'eventValue': 4,
-                'hitCallback': function () {
-                    window.location.href='<?php echo $target['url'] ?>';
-                }
-            });
-            <?php } elseif (!parse_url($target['url'])) { ?>
-            alert('Ungueltige Zieladresse');
-            <?php } else { ?>
-            alert('Unbekannter QR-Code');
-            <?php } ?>
-        </script>
-        <meta name="robots" content="noindex"/>
-    </head>
-    <body>
-    Einen kleinen Augenblick, es geht gleich weiter zu
+        //TRIGGER EVENT-LOGGING
+        ga('send', {
+            'hitType': 'event',
+            'eventCategory': '<?php echo $eventcat ?>',
+            'eventAction': '<?php echo $targetURL ?>',
+            'eventLabel': 'QR-Code aufgerufen',
+            'eventValue': 4,
+            'hitCallback': function () {
+                window.location.href = '<?php echo $target['url'] ?>';
+            }
+        });
+        <?php } elseif (!parse_url($target['url'])) { ?>
+        alert('Ungueltige Zieladresse');
+        <?php } else { ?>
+        alert('Unbekannter QR-Code');
+        <?php } ?>
+    </script>
+    <meta name="robots" content="noindex"/>
+</head>
+<body>
+Einen kleinen Augenblick, es geht gleich weiter zu
 <?php
-  echo '<a href="' . $target['url'] . '">' . $target['url'] . '</a>'
+echo '<a href="' . $target['url'] . '">' . $target['url'] . '</a>'
 ?>
-    </body>
+</body>
 </html>
